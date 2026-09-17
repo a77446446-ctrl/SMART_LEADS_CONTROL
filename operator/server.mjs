@@ -115,6 +115,26 @@ export async function createOperatorServer({ store, adminKey, origin, production
   return server;
 }
 
+export function startupErrorSummary(error) {
+  if (error instanceof InputError) return error.message;
+  if (error instanceof Error && /^(Задайте OPERATOR_|Некорректный PORT)/.test(error.message)) return error.message;
+  const code = error && typeof error === 'object' && typeof error.code === 'string' ? error.code : '';
+  const known = {
+    '28P01': 'PostgreSQL отклонила пароль',
+    '3D000': 'Указанная база PostgreSQL не существует',
+    '42501': 'Недостаточно прав для создания таблиц PostgreSQL',
+    ENOTFOUND: 'Внутреннее имя PostgreSQL не найдено',
+    EAI_AGAIN: 'Не удалось разрешить внутреннее имя PostgreSQL',
+    ECONNREFUSED: 'Соединение с PostgreSQL отклонено',
+    ETIMEDOUT: 'Превышено время ожидания PostgreSQL',
+    EADDRINUSE: 'Порт HTTP-сервера уже занят',
+  };
+  if (Object.hasOwn(known, code)) return `${known[code]} (${code})`;
+  if (/^[A-Z0-9_]{2,24}$/.test(code)) return `Код ошибки: ${code}`;
+  return 'Причина не определена; проверьте настройки и доступность PostgreSQL';
+}
+
+let startupStage = 'проверка настроек';
 async function main() {
   const { OPERATOR_DATABASE_URL, OPERATOR_ADMIN_KEY, OPERATOR_PUBLIC_URL } = process.env;
   if (!OPERATOR_DATABASE_URL) throw new Error('Задайте OPERATOR_DATABASE_URL отдельной базы реестра');
@@ -122,7 +142,9 @@ async function main() {
   if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('Некорректный PORT');
   const store = createStore(OPERATOR_DATABASE_URL);
   const server = await createOperatorServer({ store, adminKey: OPERATOR_ADMIN_KEY, origin: OPERATOR_PUBLIC_URL, production: process.env.NODE_ENV !== 'development' });
+  startupStage = 'подключение к PostgreSQL и создание таблиц';
   await store.migrate();
+  startupStage = 'запуск HTTP-сервера';
   await new Promise((resolve, reject) => { server.once('error', reject); server.listen(port, process.env.OPERATOR_HOST || '0.0.0.0', resolve); });
   console.log(`[ПАНЕЛЬ] Сервер запущен на порту ${port}`);
   let closing = false;
@@ -134,4 +156,7 @@ async function main() {
   });
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch(() => { console.error('[ПАНЕЛЬ] Запуск не выполнен. Проверьте OPERATOR_DATABASE_URL, OPERATOR_ADMIN_KEY и OPERATOR_PUBLIC_URL'); process.exitCode = 1; });
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main().catch(error => {
+  console.error(`[ПАНЕЛЬ] Запуск не выполнен (${startupStage}): ${startupErrorSummary(error)}`);
+  process.exitCode = 1;
+});
