@@ -2,5 +2,39 @@
 @media(min-width:1600px){.main{padding-left:55px;padding-right:55px}}@media(max-width:1150px){.workspace{grid-template-columns:195px minmax(0,1fr)}.sidebar{padding:24px 10px}.main{padding:0 24px 28px}.stats{gap:10px}.stats article{padding:16px}.list-toolbar{align-items:flex-start;flex-direction:column;gap:15px}.toolbar-actions{width:100%}.toolbar-actions form{flex:1}.toolbar-actions input{min-width:0}.info-strip{align-items:flex-start}.info-strip .text-button{white-space:normal}.page-heading h1{font-size:28px}.nav-button{font-size:11px}}
 @media(max-width:760px){.workspace{display:block}.sidebar{position:static;height:auto;padding:15px 18px;border-bottom:1px solid #e2e7ed}.brand{padding:0}.nav-label,.sidebar-bottom{display:none}.sidebar nav{display:flex;margin-top:15px;gap:7px}.nav-button{margin:0;width:auto;padding:8px 10px}.nav-button span{font-size:14px}.main{padding:0 16px 26px}.topbar{height:48px;font-size:10px}.private-label{display:none}.page-heading{margin:25px 0 20px;align-items:flex-start;flex-direction:column;gap:17px}.page-heading h1{font-size:27px}.stats{grid-template-columns:1fr 1fr;margin-bottom:18px}.stats article{padding:15px}.stats strong{font-size:26px;margin:11px 0 6px}.stats small{font-size:9px}.list-toolbar{padding:15px}.toolbar-actions{flex-wrap:wrap}.toolbar-actions input{width:100%}.toolbar-actions form{width:100%}.toolbar-actions>#refresh{display:none}.info-strip{flex-wrap:wrap}.info-strip .text-button{padding-left:27px}.guide-grid{grid-template-columns:1fr}.guide-card{padding:20px}.guide-table td{padding:12px 8px;min-width:170px}dialog{padding:20px}.form-grid{grid-template-columns:1fr}.metric-grid{grid-template-columns:1fr 1fr}.dialog-footer{align-items:stretch;flex-direction:column}.login-card{padding:30px}h1{font-size:28px}.guide-card.full .table-scroll{margin:0 -7px}}
 
+/* Инструкция: читаемые шаги, навигация и предупреждения без зависимости от JavaScript. */
+#guide-view{max-width:1120px}
+#guide-view .page-heading .muted{font-size:14px}
+.guide-toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.guide-toc a{padding:9px 12px;background:#fff;border:1px solid #d9e3ef;border-radius:7px;text-decoration:none;font-size:13px;color:#245ca5}
+.guide-toc a:hover{background:#edf4ff}
+#guide-view .guide-card{scroll-margin-top:20px;min-width:0}
+#guide-view .guide-card h2{font-size:21px;line-height:1.35}
+#guide-view .guide-card h3{font-size:15px;line-height:1.5;margin-top:22px;margin-bottom:8px}
+#guide-view .guide-card p,.guide-steps{font-size:14px;line-height:1.75;color:#41576a}
+#guide-view .guide-card strong{color:#203b50}
+#guide-view .guide-grid{margin:16px 0 0;gap:18px 28px}
+#guide-view .guide-grid h3{margin-top:0}
+#guide-view .guide-grid>div{min-width:0}
+#guide-view .guide-card .guide-context{color:#536d86;margin-bottom:20px}
+.guide-steps{padding-left:26px;margin:16px 0}
+.guide-steps li{padding-left:6px;margin:0 0 14px}
+.guide-steps li::marker{font-weight:700;color:#2367d5}
+#guide-view .guide-callout{display:block;background:#edf4ff;border-left:4px solid #397ad9;border-radius:0 8px 8px 0;padding:14px 18px;margin:18px 0;font-size:14px;line-height:1.7;color:#28486a}
+#guide-view .guide-callout.warning{background:#fff8e9;border-left-color:#d29927;color:#644b1f}
+#guide-view .guide-callout.warning strong{color:#644b1f}
+#guide-view .guide-result{padding-top:16px;margin-top:20px;border-top:1px solid #dfe9e4;color:#226b50}
+#guide-view .guide-result strong{color:inherit}
+#guide-view .guide-table{margin:14px 0}
+#guide-view .guide-table th{font-size:12px;font-weight:600;color:#465d70;padding:12px 14px}
+#guide-view .guide-table td{font-size:13px;vertical-align:top;padding:14px;line-height:1.7}
+#guide-view code{font-size:12px}
+.guide-details{border-top:1px solid #e2e8ef;padding:16px 0}
+.guide-details summary{cursor:pointer;font-weight:600;font-size:14px;line-height:1.6;color:#244d79}
+.guide-details summary:focus-visible{outline:3px solid #82b4fc;outline-offset:5px}
+.guide-details[open] summary{margin-bottom:12px}
+#guide-view .hint{font-size:12px}
+@media(max-width:760px){#guide-view .guide-card h2{font-size:19px}.guide-toc a{font-size:12px}.guide-steps{padding-left:22px}#guide-view .guide-callout{padding:12px 14px}#guide-view .guide-table td{min-width:150px;padding:12px 10px}}
+
 /* На узком экране выход остаётся доступным рядом с названием панели. */
 @media(max-width:760px){.sidebar{position:relative}.sidebar-bottom{display:flex;position:absolute;right:16px;top:18px;padding:0;border:0}.sidebar-bottom>div{display:none}}
